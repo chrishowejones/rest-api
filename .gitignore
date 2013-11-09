@@ -11,3 +11,6 @@ pom.xml
 .lein-env
 .lein*
 .nrepl*
+pom.xml
+/targets/
+.lein-deps-sum

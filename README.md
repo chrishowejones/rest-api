@@ -15,5 +15,9 @@ To start a web server for the application, run:
     lein ring server
 
 ## License
+None at moment
 
-Copyright © 2013 FIXME
+## rest-api
+
+
+Experiment in creating a REST API using Compojure and Liberator.
