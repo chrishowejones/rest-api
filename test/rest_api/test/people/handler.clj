@@ -12,6 +12,10 @@
   (fact "Test POST method for /person/:id creates the required person details."
        (let [response (people-routes (request :post "/person/999" {:body {:name "Fred Bloggs" :age 33}}))]
          (:status response) => 201
+         (get (re-find #":id \"([0-9]*)\""
+                        (:body response)) 1) => "999"
          (get (re-find #":name (\".*\")"
-                        (:body response)) 1) => "\"Fred Bloggs\"" ))
+                        (:body response)) 1) => "\"Fred Bloggs\""
+         (get (re-find #":age ([0-9]*)"
+                        (:body response)) 1) => "33" ))
 )

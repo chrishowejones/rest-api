@@ -3,6 +3,8 @@
   :url "https://github.com/chrishowejones/rest-api"
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [compojure "1.1.6"]
+                 [org.clojure/data.json "0.2.3"]
+                 [hyperion/hyperion-mysql "3.7.1"]
                  [liberator "0.9.0"]]
   :plugins [[lein-ring "0.8.8"]]
   :ring {:handler rest-api.handler/app :auto-reload true}
