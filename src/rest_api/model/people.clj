@@ -14,6 +14,3 @@
 (defn person-to-json [p]
   "Convert person to json string."
   (let [pers (assoc-in {} [:person] p)] (write-str pers :key-fn name)))
-
-(-> (json-to-person "{\"person\": {\"id\": 123 \"name\" : \"Fred\"}}") person-to-json)
-(-> (person-to-json {:id 123 :name "Fred"}) json-to-person)
