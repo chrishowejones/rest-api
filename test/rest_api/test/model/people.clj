@@ -19,9 +19,8 @@
   (do (save {:kind :person :id 111 :name "Test"})
       (fact "Test to fetch a person using their id."
             (let [found (find-person 111)]
-              (count found) => 1 ; check only one row found
-              (:id (first found)) => 111
-              (:name (first found)) => "Test"))
+              (:id  found) => 111
+              (:name  found) => "Test"))
       (fact "Test to fetch a person using their name."
             (let [found (find-person-by-name "Test")]
               (count found) => 1

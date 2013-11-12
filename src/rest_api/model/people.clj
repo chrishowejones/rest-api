@@ -18,8 +18,8 @@
   ;; Finders for persom
 
   (defn find-person [id]
-    "Find a person using the provided unique id. Returns a seq of matching persons."
-    (find-by-kind :person :filters [:= :id id])
+    "Find a person using the provided unique id. Returns a matching person."
+    (first (find-by-kind :person :filters [:= :id id]))
     )
 
   (defn find-person-by-name [name]

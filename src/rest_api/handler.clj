@@ -1,12 +1,16 @@
 (ns rest-api.handler
-  (:use compojure.core)
+  (:use compojure.core
+        hyperion.api)
   (:require [compojure.handler :as handler]
             [compojure.route :as route]
+            [ring.middleware.json :as middleware]
             [liberator.core :refer [resource defresource]]
             [rest-api.people.handler :refer [people-routes]]))
 
 ; This handler is the main entry point to the web application
 
+;; use for testing only
+(set-ds! (new-datastore :implementation :memory))
 
 (defroutes test-routes
   (ANY "/" [] "/secret?word=guess to guess the secret word or /choice?choice=?? where ?? is a number to choose a result.")
@@ -32,14 +36,16 @@
 
 ; Maps the routes for the application
 (defroutes main-routes
-  (ANY "/" [] "Use /test or /people to retrieve resources") ; maps root
-  (context "/test" [] test-routes) ; maps a /test URI
-  (context "/people" [] people-routes) ; maps the /people URI
-  (route/not-found "Not Found") ; catch all for any other URI
-  )
+    (ANY "/" [] "Use /test or /people to retrieve resources") ; maps root
+    (context "/test" [] test-routes) ; maps a /test URI
+    (context "/people" [] people-routes) ; maps the /people URI
+    (route/not-found "Not Found")) ; catch all for any other URI
 
 ; App is the entry point to the application and creates a compojure site handler
 ; that calls through to the function that routes the URIs
 
 (def app
-  (handler/site main-routes))
+  (-> (handler/site main-routes)
+      (middleware/wrap-json-body)
+      (middleware/wrap-json-response)
+      (middleware/wrap-json-params)))
