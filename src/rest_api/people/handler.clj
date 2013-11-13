@@ -6,16 +6,20 @@
         rest-api.model.people)
   (:require [liberator.core :refer [resource defresource]]))
 
+(defn wrap-person [pm]
+  "Wrap the person details returned from the model in an outer map keyed by :person"
+  (assoc {} :person pm))
+
 (defresource create-person-resource [person]
   :allowed-methods [:post]
   :available-media-types ["text/html" "application/json"]
-  :post! (let [person (create-person person)] {:created person})
+  :post! (let [person (wrap-person (create-person person))] {:created person})
   :handle-created :created)
 
 (defresource person-resource [id]
   :allowed-methods [:get]
   :available-media-types ["text/html" "application/json"]
-  :handle-ok  (find-person id)) ; map to /people/person/:id
+  :handle-ok (find-person id)) ; map to /people/person/:id
 
 
 

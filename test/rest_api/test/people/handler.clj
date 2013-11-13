@@ -9,9 +9,6 @@
             [compojure.handler :as handler]
             [ring.mock.request :as mock]))
 
-(defroutes test-routes
-  (POST "/persontest" [person] (str "Person = " person)))
-
 ;; create json middleware wrapped people-routes
 (def test-people-routes
   (-> (handler/site people-routes)

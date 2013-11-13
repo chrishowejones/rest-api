@@ -3,7 +3,6 @@
         hyperion.api)
   (:require [compojure.handler :as handler]
             [compojure.route :as route]
-            [hyperion.api :as db]
             [ring.middleware.json :as middleware]
             [liberator.core :refer [resource defresource]]
             [rest-api.people.handler :refer [people-routes]]))
@@ -11,7 +10,7 @@
 ; This handler is the main entry point to the web application
 
 ;; use for testing only
-(set-ds! (new-datastore :implementation :memory))
+;;(set-ds! (new-datastore :implementation :memory))
 
 (defroutes test-routes
   (ANY "/" [] "/secret?word=guess to guess the secret word or /choice?choice=?? where ?? is a number to choose a result.")
@@ -42,8 +41,16 @@
     (context "/people" [] people-routes) ; maps the /people URI
     (route/not-found "Not Found")) ; catch all for any other URI
 
+;; Set up database
+;;
+(def mysql-ds (new-datastore :implementation :mysql :connection-url "jdbc:mysql://localhost:3306/restapi?user=restapi&password=restapi" :username "restapi" :password "restapi" :database "restapi"))
+
+
+(set-ds! mysql-ds)
+
 ; App is the entry point to the application and creates a compojure site handler
 ; that calls through to the function that routes the URIs
+
 
 (def app
   (-> (handler/site main-routes)

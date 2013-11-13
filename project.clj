@@ -6,10 +6,12 @@
                  [org.clojure/data.json "0.2.3"]
                  [ring/ring-json "0.2.0"]
                  [hyperion/hyperion-mysql "3.7.1"]
+                 [mysql/mysql-connector-java "5.1.25"]
                  [liberator "0.9.0"]]
   :plugins [[lein-ring "0.8.8"]]
   :ring {:handler rest-api.handler/app :auto-reload true}
   :profiles
   {:dev {:dependencies [[javax.servlet/servlet-api "2.5"]
                         [ring-mock "0.1.5"]
+                        [ring-server "0.3.1"]
                         [midje "1.5.0"]]}})
