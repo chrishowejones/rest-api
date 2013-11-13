@@ -19,7 +19,7 @@
 (defresource person-resource [id]
   :allowed-methods [:get]
   :available-media-types ["text/html" "application/json"]
-  :handle-ok (find-person id)) ; map to /people/person/:id
+  :handle-ok (wrap-person (find-person id))) ; map to /people/person/:id
 
 
 

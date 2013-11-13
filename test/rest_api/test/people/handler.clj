@@ -18,11 +18,15 @@
 
 
 (facts
- (with-redefs [rest-api.model.people/find-person (fn [id] "This is mapped to /people/person for id 1 for a GET HTTP request")] ;; Mock find-person using with-redefs
+ (with-redefs [rest-api.model.people/find-person (fn [id] {:personid 1})] ;; Mock find-person using with-redefs
    (fact "Test GET method for /person/:id returns the required person details."
-         (let [response (people-routes (mock/request :get "/person/1"))]
+         (let [response (people-routes (mock/header
+                                        (mock/content-type
+                                         (mock/request :get "/person/1")
+                                         "application/json")
+                                        "accept" "application/json"))]
            (:status response) => 200
-           (:body response) => "This is mapped to /people/person for id 1 for a GET HTTP request")))
+           (:body response) => "{\"person\":{\"personid\":1}}")))
  (with-redefs [rest-api.model.people/create-person (fn [m] m)]
    (fact "Test POST method for /person/:id creates the required person details."
          (let [response
