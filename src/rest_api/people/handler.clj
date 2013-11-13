@@ -6,11 +6,18 @@
         rest-api.model.people)
   (:require [liberator.core :refer [resource defresource]]))
 
-(defresource create-person-res [person]
+(defresource create-person-resource [person]
   :allowed-methods [:post]
-  :available-media-types ["application/json"]
+  :available-media-types ["text/html" "application/json"]
   :post! (let [person (create-person person)] {:created person})
   :handle-created :created)
+
+(defresource person-resource [id]
+  :allowed-methods [:get]
+  :available-media-types ["text/html" "application/json"]
+  :handle-ok  (find-person id)) ; map to /people/person/:id
+
+
 
 
 ;; The following defroutes map resources that are nested under /people
@@ -21,8 +28,6 @@
 <ul><li>GET method on /people/person/:id
     <li>ANY method on /people/</ul>"
   (ANY "/" [] "/people/person/:id will return a person.") ; map to /people/
-  (GET "/person/:id" [id] (resource
-                           :available-media-types ["text/html" "application/json"]
-                           :handle-ok  (find-person id))) ; map to /people/person/:id
-  (POST "/person" [person] (create-person-res person))
-  )
+  (GET "/person/:id" [id] (person-resource id
+                           )) ; map to /people/person/:id
+  (POST "/person" [person] (create-person-resource person)))

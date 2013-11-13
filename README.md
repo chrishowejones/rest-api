@@ -1,6 +1,7 @@
-# rest-api
+## rest-api
 
-FIXME
+
+Experiment in creating a REST API using Compojure and Liberator.
 
 ## Prerequisites
 
@@ -14,10 +15,10 @@ To start a web server for the application, run:
 
     lein ring server
 
+Once running you can use curl or a REST client to send requests. For example:
+
+    curl -X POST -H "Content-Type: application/json"  -d '{"person: { "id" : 999 }}' http://localhost:3000/people/person
+    curl -X GET -H "Content-Type: application/json"  http://localhost:3000/people/person/1
+
 ## License
 None at moment
-
-## rest-api
-
-
-Experiment in creating a REST API using Compojure and Liberator.

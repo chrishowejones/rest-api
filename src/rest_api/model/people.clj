@@ -6,7 +6,7 @@
 ;; Set up database
 ;;
 
-(binding [*ds* (new-datastore :implementation :mysql :connection-url "jdbc:mysql://localhost:3306/restapi?user=root" :database "restapi")]
+(binding [*ds* (new-datastore :implementation :mysql :connection-url "jdbc:mysql://localhost:3306/restapi?user=restapi&password=restapi" :database "restapi")]
 
   ;; Persistence for person
 
@@ -19,7 +19,8 @@
 
   (defn find-person [id]
     "Find a person using the provided unique id. Returns a matching person."
-    (first (find-by-kind :person :filters [:= :id id]))
+    (let [ident (if (string? id) (Integer/valueOf id) id)]
+      (first (find-by-kind :person :filters [:= :id ident])))
     )
 
   (defn find-person-by-name [name]

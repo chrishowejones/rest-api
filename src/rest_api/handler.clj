@@ -3,6 +3,7 @@
         hyperion.api)
   (:require [compojure.handler :as handler]
             [compojure.route :as route]
+            [hyperion.api :as db]
             [ring.middleware.json :as middleware]
             [liberator.core :refer [resource defresource]]
             [rest-api.people.handler :refer [people-routes]]))
@@ -48,4 +49,5 @@
   (-> (handler/site main-routes)
       (middleware/wrap-json-body)
       (middleware/wrap-json-response)
-      (middleware/wrap-json-params)))
+      (middleware/wrap-json-params))
+  )

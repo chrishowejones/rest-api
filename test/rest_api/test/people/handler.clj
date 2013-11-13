@@ -29,7 +29,12 @@
  (with-redefs [rest-api.model.people/create-person (fn [m] m)]
    (fact "Test POST method for /person/:id creates the required person details."
          (let [response
-               (test-people-routes (mock/content-type (mock/request :post "/person" "{ \"person\" : { \"id\" : 999, \"name\" : \"Fred Bloggs\", \"age\" : 33}}") "application/json"))]
+               (test-people-routes
+                (mock/header
+                 (mock/content-type
+                   (mock/request :post "/person" "{ \"person\" : { \"id\" : 999, \"name\" : \"Fred Bloggs\", \"age\" : 33}}")
+                 "application/json")
+                "accept" "application/json"))]
            (:status response) => 201
            (get (re-find #"id\":([0-9]*)"
                          (:body response)) 1) => "999"
